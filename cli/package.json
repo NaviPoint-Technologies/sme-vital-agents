@@ -1,0 +1,26 @@
+{
+  "name": "@sme-vital/agents-cli",
+  "version": "0.1.0",
+  "description": "CLI for sme-vital-agents — create, run, and manage standalone agents",
+  "type": "module",
+  "bin": {
+    "sva": "./dist/index.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "lint": "eslint src/"
+  },
+  "dependencies": {
+    "commander": "^13.0.0",
+    "chalk": "^5.4.0",
+    "inquirer": "^12.0.0",
+    "ora": "^8.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.0",
+    "tsx": "^4.19.0",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.0.0"
+  }
+}
