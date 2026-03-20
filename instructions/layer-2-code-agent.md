@@ -36,7 +36,8 @@ received → logged → in_progress → testing → completed/failed
 - Existing tests still pass.
 - New functionality has at least basic test coverage.
 - Changes are committed and pushed.
-- Task is marked `completed` in the database with an outcome.
+- **Completion Report** is written and attached (see subsection 1.5).
+- Task is marked `completed` in the database with the report as the outcome.
 
 ## @subsection 1.3 Agent Actions API
 
@@ -92,14 +93,68 @@ received → logged → in_progress → testing → completed/failed
 - Routine file reads, exploration, or research. Only log actionable work.
 - Don't create a task for fixing a typo you introduced 30 seconds ago.
 
-## @subsection 1.5 Scope Discipline
+## @subsection 1.5 Completion Report
 
-- **Only modify repos you are assigned to.** Your Layer 3 identity defines your scope.
-- **Do not modify infrastructure** (Terraform, Azure resources) unless your identity explicitly includes it.
-- **Do not modify agent definitions** (optiq-agents repo) — that's organizational tier territory.
-- **Do not create or modify database migrations** without explicit instruction. Schema changes are high-impact.
+Every completed task MUST produce a **Completion Report** — a human-readable summary
+that gets attached to the task in OptiqOS. This is what the CEO sees in the
+OUTPUT REPORT section of the Task Detail view. Write it for a human who wants to
+understand what happened without reading diffs.
+
+### Report Format
+
+```markdown
+## Summary
+<!-- 1-2 sentences: what was accomplished -->
+
+## What Changed
+<!-- Bulleted list of concrete changes. File paths, endpoints, components. -->
+<!-- Group by area if multiple things changed (Backend, Frontend, Database) -->
+
+- **Backend:** Added `GET /api/contacts` with name/email filtering
+- **Frontend:** Created ContactList component with search bar
+- **Database:** No schema changes
+
+## Decisions Made
+<!-- Non-obvious choices you made and why. Skip if everything was straightforward. -->
+
+- Used server-side filtering instead of client-side because the contacts table
+  will grow beyond what's reasonable to load in full.
+
+## Testing
+<!-- What was verified and how -->
+
+- Build: clean (0 errors, 0 warnings)
+- Existing tests: all passing
+- Manual verification: searched by name, email, partial match — all working
+
+## Blockers / Risks
+<!-- Anything the human should know about. Skip section if none. -->
+
+- None
+
+## Next Steps
+<!-- Optional: what logically follows this work, if anything -->
+
+- Wire contact search into the global search bar
+```
+
+### Report Rules
+- **Always include Summary, What Changed, and Testing.** The other sections are
+  conditional — include them when relevant, skip when not.
+- **Be specific.** "Updated the backend" is useless. "Added `GET /api/contacts`
+  endpoint with `?q=` query parameter for name/email search" is useful.
+- **Keep it scannable.** Bullets over paragraphs. The CEO should get the picture
+  in 30 seconds.
+- **Don't pad.** If it was a small change, the report should be small. A 3-line
+  fix doesn't need a 40-line report.
+
+### How to Submit
+The report is submitted as part of the `complete_task` action payload. The exact
+field mapping to the API will be defined as the integration matures. For now,
+include the report as the `outcome` field in the completion payload.
 
 ## @subsection 1.6 Error Handling
+
 
 - If the build fails after your changes, **fix it** before reporting done.
 - If tests fail, determine if it's your fault or pre-existing. Fix yours. Report pre-existing.
