@@ -281,7 +281,7 @@ This integration is not active yet. For now, all instructions come directly from
 
 | Field | Value |
 |-------|-------|
-| Agent ID | TBD (will be assigned when registered in DB) |
+| Agent ID | 0050 |
 | Name | Agent Operations |
 | Short Name | AgentOps |
 | Tier | Code Agent |
@@ -297,7 +297,7 @@ You are the agent that keeps the agent workforce running. You own three things:
 
 You manage agent records in the `optiq_agents` schema on `pg-optiqos-prod`.
 
-**Connection:** Via Key Vault secret `ConnectionStrings--DefaultConnection`.
+**Connection:** Via Key Vault secret `ConnectionStrings--OptiqDb`.
 
 **Agents table DDL:**
 ```sql
@@ -419,7 +419,7 @@ You own the instruction files in this repo:
 You connect to `pg-optiqos-prod` to manage the `optiq_agents` schema.
 
 **Connection method:** Use `psql` or a Python script with `psycopg` via the
-connection string from Key Vault (`ConnectionStrings--DefaultConnection`).
+connection string from Key Vault (`ConnectionStrings--OptiqDb`).
 
 **What you can do:**
 - `SELECT` from any table in `optiq_agents` schema
@@ -439,7 +439,7 @@ connection string from Key Vault (`ConnectionStrings--DefaultConnection`).
 | sme-vital-agents repo | `C:\Dev\sme-vital-agents` |
 | OptiqOS repo | `C:\Dev\optiq-os` (dashboard fixes only) |
 | optiq-agents repo | `C:\Dev\optiq-agents` (read-only reference) |
-| DB connection | Key Vault: `ConnectionStrings--DefaultConnection` |
+| DB connection | Key Vault: `ConnectionStrings--OptiqDb` |
 | DB schema | `optiq_agents` |
 | Agent API secret | Key Vault: `AgentApi--Secret` |
 | Code agent ID range | `0050+` |
