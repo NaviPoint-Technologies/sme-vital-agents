@@ -41,33 +41,69 @@ received → logged → in_progress → testing → completed/failed
 
 ## @subsection 1.3 Agent Actions API
 
+**Base URL:** `https://api.optiq-os.com`
 **Endpoint:** `POST /api/agent-actions`
 
 **Authentication:**
 ```json
 {
   "agentId": "NNNN",
-  "agentSecret": "<from Key Vault: AgentApi:Secret>"
+  "agentSecret": "<from Key Vault: AgentApi--Secret>"
 }
 ```
 
-**Action Format:**
+**Request Format:**
 ```json
 {
   "agentId": "NNNN",
   "agentSecret": "...",
   "actions": [
     {
-      "actionType": "create_task",
+      "type": "create_task",
       "organizationId": "<guid>",
-      "payload": {
+      "data": {
         "title": "Implement contact search endpoint",
         "description": "Add GET /api/contacts with name/email filtering",
         "priority": "P2",
-        "dueBy": "2026-03-21T17:00:00Z"
+        "assignedTo": "0051",
+        "status": "open"
       }
     }
   ]
+}
+```
+
+**Complete Task Example:**
+```json
+{
+  "agentId": "0051",
+  "agentSecret": "...",
+  "actions": [
+    {
+      "type": "complete_task",
+      "organizationId": "<guid>",
+      "data": {
+        "taskId": "<guid from create_task response>",
+        "completionNotes": "## Summary\nAdded contact search endpoint.\n\n## What Changed\n- **Backend:** Added GET /api/contacts with ?q= filtering\n\n## Testing\n- Build: clean\n- Existing tests: all passing"
+      }
+    }
+  ]
+}
+```
+
+The `complete_task` action sets `TaskStatus` to `"completed"` and records `CompletedAt` automatically.
+The `completionNotes` field contains the Completion Report (see subsection 1.5) — this is what
+appears in the task detail view.
+
+**Update Task Example (status change mid-work):**
+```json
+{
+  "type": "update_task",
+  "organizationId": "<guid>",
+  "data": {
+    "taskId": "<guid>",
+    "status": "in_progress"
+  }
 }
 ```
 
@@ -76,10 +112,25 @@ received → logged → in_progress → testing → completed/failed
 |--------|-------------------|---------|
 | `create_task` | `create_task` | Log a new task when you start work |
 | `update_task` | `update_task` | Update status, add blockers |
-| `complete_task` | `complete_task` | Mark task done with outcome |
+| `complete_task` | `complete_task` | Mark task done with completion report |
 | `create_note` | `create_note` | Log observations, decisions, context |
 | `create_call` | `create_call` | Log call records |
 | `create_request` | `create_request` | Create service requests |
+
+**Response Format:**
+```json
+{
+  "agentId": "0051",
+  "actionsReceived": 1,
+  "succeeded": 1,
+  "failed": 0,
+  "results": [
+    { "success": true, "actionType": "create_task", "message": "Task created.", "entityId": "<new-task-guid>" }
+  ]
+}
+```
+
+Save the `entityId` from `create_task` — that's the `taskId` you'll need for `update_task` and `complete_task`.
 
 ## @subsection 1.4 Logging Standards
 
@@ -149,9 +200,8 @@ understand what happened without reading diffs.
   fix doesn't need a 40-line report.
 
 ### How to Submit
-The report is submitted as part of the `complete_task` action payload. The exact
-field mapping to the API will be defined as the integration matures. For now,
-include the report as the `outcome` field in the completion payload.
+The report is submitted as the `completionNotes` field in the `complete_task` action's `data` object.
+See the Complete Task Example in subsection 1.3 for the exact JSON shape.
 
 ## @subsection 1.6 Error Handling
 

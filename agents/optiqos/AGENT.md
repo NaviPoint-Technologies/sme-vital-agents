@@ -5,7 +5,7 @@
 
 | Field | Value |
 |-------|-------|
-| Agent ID | TBD (will be assigned when registered in DB) |
+| Agent ID | 0051 |
 | Name | OptiqOS Code Agent |
 | Tier | Code Agent |
 | Scope | Full-stack: backend, frontend, database |
@@ -100,7 +100,7 @@ web/src/modules/{feature}/
 |--------|-------|
 | .NET project | `server/Optiq.Os/Optiq.Os.Api/Optiq.Os.Api.csproj` |
 | Frontend | `web/package.json` |
-| DB connection | Key Vault: `ConnectionStrings--DefaultConnection` |
+| DB connection | Key Vault: `ConnectionStrings--OptiqDb` |
 | Agent API secret | Key Vault: `AgentApi--Secret` |
 | CORS origins | `localhost:3000`, `optiq-os.com` |
 | Frontend dev | `npm run dev` on port 3000 (via `.claude/launch.json`) |
