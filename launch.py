@@ -17,6 +17,7 @@ from core.instructions import assemble, list_agents
 # Add new agents here as they're created.
 AGENT_WORKDIRS: dict[str, str] = {
     "optiqos": r"C:\Dev\optiq-os",
+    "agentops": r"C:\Dev\sme-vital-agents",
 }
 
 
