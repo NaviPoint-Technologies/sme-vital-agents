@@ -19,9 +19,8 @@ cli/dist/
 .DS_Store
 Thumbs.db
 
-# Agent outputs
+# Agent outputs (runtime-generated)
 exported-agents/
-agents/
 
 # Env
 .env
