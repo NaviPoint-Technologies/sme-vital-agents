@@ -18,6 +18,7 @@ from core.instructions import assemble, list_agents
 AGENT_WORKDIRS: dict[str, str] = {
     "optiqos": r"C:\Dev\optiq-os",
     "agentops": r"C:\Dev\sme-vital-agents",
+    "signallab": r"C:\Dev\signal-rev",
 }
 
 

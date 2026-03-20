@@ -10,6 +10,7 @@ open a Claude Code Desktop session scoped to that folder.
 |-------|-----------|-------|
 | **OptiqOS** | `agents/optiqos/` | Full-stack code agent for OptiqOS platform |
 | **AgentOps** | `agents/agentops/` | Agent registration, dashboard health, instruction maintenance |
+| **SignalLab** | `agents/signallab/` | Website, GHL CRM, analytics, marketing operations for SignalLab LLC |
 
 ## How to Launch (Desktop App)
 
@@ -17,6 +18,7 @@ open a Claude Code Desktop session scoped to that folder.
 2. Set project directory to the agent folder:
    - OptiqOS: `C:\Dev\sme-vital-agents\agents\optiqos`
    - AgentOps: `C:\Dev\sme-vital-agents\agents\agentops`
+   - SignalLab: `C:\Dev\sme-vital-agents\agents\signallab`
 3. Start a new session — instructions auto-load
 
 ## How to Launch (CLI)
@@ -24,6 +26,7 @@ open a Claude Code Desktop session scoped to that folder.
 ```bash
 sva optiqos
 sva agentops
+sva signallab
 sva --list
 ```
 
@@ -39,6 +42,9 @@ agents/
     CLAUDE.md                <- Assembled: L1 + L2 + L3
   agentops/
     AGENT.md                 <- Layer 3: AgentOps identity
+    CLAUDE.md                <- Assembled: L1 + L2 + L3
+  signallab/
+    AGENT.md                 <- Layer 3: SignalLab identity
     CLAUDE.md                <- Assembled: L1 + L2 + L3
 ```
 
