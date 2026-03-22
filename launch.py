@@ -20,6 +20,7 @@ AGENT_WORKDIRS: dict[str, str] = {
     "agentops": r"C:\Dev\sme-vital-agents",
     "signallab": r"C:\Dev\signal-rev",
     "admin": r"C:\Dev\sme-vital-agents",
+    "pm": r"C:\Dev\optiq-os",
 }
 
 
